@@ -24,9 +24,31 @@ class Autor(self):
         self.apellido = apellido
         self.nacionalidad = nacionalidad
 
-class Usuario(self):
-    def __init__(self, ID, nombre, apellido, tipoUsuario, direccion, telefono):
-        pass # Espero rta del profe para aplicar patrón Factory
+## Implementación de Patrón Factory
+class UsuarioFactory:
+    @staticmethod
+    def crear_usuario(tipo_usuario, id, nombre, apellido, direccion, telefono):
+        if tipo_usuario == "estudiante":
+            return Estudiante(id, nombre, apellido, direccion, telefono)
+        elif tipo_usuario == "profesor":
+            return Profesor(id, nombre, apellido, direccion, telefono)
+        else:
+            raise ValueError("Tipo de usuario no reconocido")
+
+class Usuario:
+    def __init__(self, id, nombre, apellido, direccion, telefono):
+        self.id = id
+        self.nombre = nombre
+        self.apellido = apellido
+        self.direccion = direccion
+        self.telefono = telefono
+
+class Estudiante(Usuario):
+    pass
+
+class Profesor(Usuario):
+    pass
+
 
 class Prestamo(self):
     def __init__(self, ID, usuario, libro, fechaPrestamo, fechaDevolucion):
