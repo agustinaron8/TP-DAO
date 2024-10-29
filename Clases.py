@@ -14,7 +14,7 @@ class Libro(self):
         self.titulo = titulo
         self.genero = genero
         self.anioPublicacion = anioPublicacion
-        self.autor = autor # Ver que onda esto xq autor es una clase
+        self.autor = autor
         self.cantidad = cantidad
 
 class Autor(self):
@@ -53,7 +53,7 @@ class Profesor(Usuario):
 class Prestamo(self):
     def __init__(self, ID, usuario, libro, fechaPrestamo, fechaDevolucion):
         self.ID = ID
-        self.usuario = usuario # Ver que onda esto xq usuario es una clase
+        self.usuario = usuario
         self.libro = libro
         self.fechaPrestamo = fechaPrestamo
         self.fechaDevolucion = fechaDevolucion
