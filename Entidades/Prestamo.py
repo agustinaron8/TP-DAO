@@ -14,6 +14,24 @@ class Prestamo(self):
         conexion.commit()
     
     @staticmethod
+    def consultar(db, prestamo_id):
+        db.cursor.execute('SELECT * FROM Prestamo WHERE id = ?', (prestamo_id,))
+        return db.cursor.fetchone()
+
+    def modificar(self, db):
+        db.cursor.execute('''
+            UPDATE Prestamo 
+            SET usuario_id = ?, libro_isbn = ?, fecha_prestamo = ?, fecha_devolucion = ?
+            WHERE id = ?
+        ''', (self.usuario_id, self.libro_isbn, self.fecha_prestamo, self.fecha_devolucion, self.id))
+        db.conexion.commit()
+
+    @staticmethod
+    def eliminar(db, prestamo_id):
+        db.cursor.execute('DELETE FROM Prestamo WHERE id = ?', (prestamo_id,))
+        db.conexion.commit()
+    
+    @staticmethod
     def registrar_devolucion(db, prestamo_id, en_condiciones=True):
         """
         Registra la devolución de un libro, actualizando la fecha de devolución y la cantidad en inventario.

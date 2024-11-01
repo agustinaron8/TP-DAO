@@ -15,6 +15,24 @@ class Libro(self):
         conexion.commit()
     
     @staticmethod
+    def consultar(db, isbn):
+        db.cursor.execute('SELECT * FROM Libro WHERE isbn = ?', (isbn,))
+        return db.cursor.fetchone()
+
+    def modificar(self, db):
+        db.cursor.execute('''
+            UPDATE Libro 
+            SET titulo = ?, genero = ?, anio_publicacion = ?, autor_id = ?, cantidad = ?
+            WHERE isbn = ?
+        ''', (self.titulo, self.genero, self.anio_publicacion, self.autor_id, self.cantidad, self.isbn))
+        db.conexion.commit()
+
+    @staticmethod
+    def eliminar(db, isbn):
+        db.cursor.execute('DELETE FROM Libro WHERE isbn = ?', (isbn,))
+        db.conexion.commit()
+    
+    @staticmethod
     def consultar_disponibilidad(isbn):
         cursor.execute('SELECT cantidad FROM Libro WHERE isbn = ?', (isbn,))
         cantidad = cursor.fetchone()
