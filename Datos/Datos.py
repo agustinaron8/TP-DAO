@@ -1,12 +1,21 @@
 import sqlite3
 
 class BaseDeDatos:
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(BaseDeDatos, cls).__new__(cls)
+        return cls._instance
+
     def __init__(self, nombre_db='biblioteca.db'):
-        self.nombre_db = nombre_db
-        self.conexion = None
-        self.cursor = None
-        self.conectar()
-        self.crear_tablas()
+        # Evita reinicialización si ya existe una instancia
+        if not hasattr(self, 'conexion'):
+            self.nombre_db = nombre_db
+            self.conexion = None
+            self.cursor = None
+            self.conectar()
+            self.crear_tablas()
 
     def conectar(self):
         """Establece la conexión con la base de datos y crea el cursor."""
@@ -61,3 +70,4 @@ class BaseDeDatos:
         """Cierra la conexión con la base de datos."""
         if self.conexion:
             self.conexion.close()
+            BaseDeDatos._instance = None  # Permite crear una nueva instancia después de cerrar

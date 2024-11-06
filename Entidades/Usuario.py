@@ -23,16 +23,24 @@ class Usuario:
 
     @staticmethod
     def consultar(db, usuario_id):
-        db.cursor.execute('SELECT * FROM Usuario WHERE id = ?', (usuario_id,))
-        return db.cursor.fetchone()
+        try:
+            db.cursor.execute('SELECT * FROM Usuario WHERE id = ?', (usuario_id,))
+            resultado = db.cursor.fetchone()
+            return resultado if resultado else None
+        except Exception as e:
+            return e
 
     def modificar(self, db):
         raise NotImplementedError("Este método debe ser implementado por subclases")
 
     @staticmethod
     def eliminar(db, usuario_id):
-        db.cursor.execute('DELETE FROM Usuario WHERE id = ?', (usuario_id,))
-        db.conexion.commit()
+        try:
+            db.cursor.execute('DELETE FROM Usuario WHERE id = ?', (usuario_id,))
+            db.conexion.commit()
+            return True
+        except Exception as e:
+            return e
 
 # Subclase Estudiante
 class Estudiante(Usuario):
@@ -41,19 +49,27 @@ class Estudiante(Usuario):
         self.tipo_usuario = tipo_usuario
 
     def guardar(self, db):
-        db.cursor.execute('''
-            INSERT INTO Usuario (nombre, apellido, tipo_usuario, direccion, telefono) 
-            VALUES (?, ?, ?, ?, ?)
-        ''', (self.nombre, self.apellido, self.tipo_usuario, self.direccion, self.telefono))
-        db.conexion.commit()
+        try:
+            db.cursor.execute('''
+                INSERT INTO Usuario (nombre, apellido, tipo_usuario, direccion, telefono) 
+                VALUES (?, ?, ?, ?, ?)
+            ''', (self.nombre, self.apellido, self.tipo_usuario, self.direccion, self.telefono))
+            db.conexion.commit()
+            return True
+        except Exception as e:
+            return e
 
     def modificar(self, db):
-        db.cursor.execute('''
-            UPDATE Usuario 
-            SET nombre = ?, apellido = ?, tipo_usuario = ?, direccion = ?, telefono = ?
-            WHERE id = ?
-        ''', (self.nombre, self.apellido, self.tipo_usuario, self.direccion, self.telefono, self.id))
-        db.conexion.commit()
+        try:
+            db.cursor.execute('''
+                UPDATE Usuario 
+                SET nombre = ?, apellido = ?, tipo_usuario = ?, direccion = ?, telefono = ?
+                WHERE id = ?
+            ''', (self.nombre, self.apellido, self.tipo_usuario, self.direccion, self.telefono, self.id))
+            db.conexion.commit()
+            return True
+        except Exception as e:
+            return e
 
 # Subclase Profesor
 class Profesor(Usuario):
@@ -62,16 +78,24 @@ class Profesor(Usuario):
         self.tipo_usuario = tipo_usuario
 
     def guardar(self, db):
-        db.cursor.execute('''
-            INSERT INTO Usuario (nombre, apellido, tipo_usuario, direccion, telefono) 
-            VALUES (?, ?, ?, ?, ?)
-        ''', (self.nombre, self.apellido, self.tipo_usuario, self.direccion, self.telefono))
-        db.conexion.commit()
+        try:
+            db.cursor.execute('''
+                INSERT INTO Usuario (nombre, apellido, tipo_usuario, direccion, telefono) 
+                VALUES (?, ?, ?, ?, ?)
+            ''', (self.nombre, self.apellido, self.tipo_usuario, self.direccion, self.telefono))
+            db.conexion.commit()
+            return True
+        except Exception as e:
+            return e
 
     def modificar(self, db):
-        db.cursor.execute('''
-            UPDATE Usuario 
-            SET nombre = ?, apellido = ?, tipo_usuario = ?, direccion = ?, telefono = ?
-            WHERE id = ?
-        ''', (self.nombre, self.apellido, self.tipo_usuario, self.direccion, self.telefono, self.id))
-        db.conexion.commit()
+        try:
+            db.cursor.execute('''
+                UPDATE Usuario 
+                SET nombre = ?, apellido = ?, tipo_usuario = ?, direccion = ?, telefono = ?
+                WHERE id = ?
+            ''', (self.nombre, self.apellido, self.tipo_usuario, self.direccion, self.telefono, self.id))
+            db.conexion.commit()
+            return True
+        except Exception as e:
+            return e
